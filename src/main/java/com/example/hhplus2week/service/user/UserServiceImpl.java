@@ -17,6 +17,22 @@ public class UserServiceImpl implements UserService {
 
 
     /**
+     * 유저를 등록
+     */
+    @Transactional
+    public UserDto.UserResponseDto registerUser(UserDto.UserRequestDto requestDto) {
+        User user = User.builder()
+                .name(requestDto.getName())
+                .build();
+
+        User savedUser = userRepository.save(user);
+
+        return new UserDto.UserResponseDto(
+                savedUser.getId(),
+                savedUser.getName());
+    }
+
+    /**
      * 유저를 조회
      */
     public UserDto.UserResponseDto getUserInfo(Long userId) {

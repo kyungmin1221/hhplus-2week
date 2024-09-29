@@ -11,11 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -25,6 +24,36 @@ class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
+
+    /**
+     * 유저 등록 테스트
+     */
+    @DisplayName("유저가 등록되었는지 확인하는 테스트")
+    @Test
+    public void registerUser() {
+
+        // given
+        UserDto.UserRequestDto requestDto = new UserDto.UserRequestDto();
+        requestDto.setName("java");
+
+        User rgUser = User.builder()
+                .userId(1L)
+                .name("java")
+                .build();
+
+        // when
+        when(userRepository.save(any(User.class)))
+                .thenReturn(rgUser);
+
+        UserDto.UserResponseDto userResponseDto = userService.registerUser(requestDto);
+
+        // then
+        assertNotNull(userResponseDto);
+        assertEquals(1L, userResponseDto.getUserId());
+        assertEquals("java", userResponseDto.getName());
+
+        verify(userRepository, times(1)).save(any(User.class));
+    }
 
     /**
      * 해당 유저가 존재하는지 확인
