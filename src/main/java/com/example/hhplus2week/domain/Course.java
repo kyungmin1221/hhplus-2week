@@ -1,6 +1,7 @@
 package com.example.hhplus2week.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,12 @@ public class Course {
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Enrollment> enrollments = new ArrayList<>();
+
+    @Builder
+    public Course(Long id, String name, Long capacity) {
+        this.id = id;
+        this.name = name;
+        this.capacity =capacity;
+    }
+
 }
