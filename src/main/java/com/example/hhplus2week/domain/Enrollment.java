@@ -1,6 +1,7 @@
 package com.example.hhplus2week.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,9 @@ public class Enrollment {
     private Course course;
 
 
+    @Builder
+    public Enrollment(User user, Course course) {
+        this.user = user;
+        this.course = course;
+    }
 }
