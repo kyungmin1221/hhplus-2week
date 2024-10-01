@@ -32,13 +32,15 @@ class UserServiceImplTest {
     @Test
     public void registerUser() {
 
+        long userId = 1L;
+        String name = "java";
         // given
         UserDto.UserRequestDto requestDto = new UserDto.UserRequestDto();
         requestDto.setName("java");
 
         User rgUser = User.builder()
-                .userId(1L)
-                .name("java")
+                .userId(userId)
+                .name(name)
                 .build();
 
         // when
