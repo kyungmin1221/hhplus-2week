@@ -79,6 +79,7 @@ class EnrollmentServiceImplTest {
             try {
                 enrollmentService.registerEnrollment(requestDto);
                 System.out.println("User " + i + " 수강신청 등록");
+                System.out.println("등록 인원 수 : " + course.getEnrollCount());
             } catch (Exception e) {
                 System.out.println("User " + i + " 등록 실패 : " + e.getMessage());
             }
