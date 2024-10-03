@@ -23,11 +23,18 @@ public class CourseController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<CourseDto.CourseResponseDto>>getListCourse()  {
         List<CourseDto.CourseResponseDto> responseDtos = courseService.getListCourse();
         return ResponseEntity.ok(responseDtos);
 
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CourseDto.CourseResponseDto>> getCoursesByDate(
+            @RequestParam(required = false) String date) {
+        List<CourseDto.CourseResponseDto> courses = courseService.getDateCourse(date);
+        return ResponseEntity.ok(courses);
     }
 
 

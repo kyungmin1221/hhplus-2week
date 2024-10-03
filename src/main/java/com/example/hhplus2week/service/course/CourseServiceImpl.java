@@ -34,7 +34,7 @@ public class CourseServiceImpl implements CourseService{
                 .id(requestDto.getCourseId())
                 .name(requestDto.getName())
                 .capacity(30L)
-                .createdAt(LocalDateTime.now())
+                .date(requestDto.getDate())
                 .build();
 
         courseRepository.save(newCourse);
@@ -51,6 +51,14 @@ public class CourseServiceImpl implements CourseService{
                 .collect(Collectors.toList());
     }
 
+    public List<CourseDto.CourseResponseDto> getDateCourse(String date) {
+        List<Course> courses = courseRepository.findByDate(date);
+
+        return courses.stream().map(this::convertToDto)
+                .collect(Collectors.toList());
+
+    }
+
 
     // course -> dto 변환
     private CourseDto.CourseResponseDto convertToDto(Course course) {
@@ -59,7 +67,7 @@ public class CourseServiceImpl implements CourseService{
         responseDto.setName(course.getName());
         responseDto.setCapacity(course.getCapacity());
         responseDto.setEnrollCount(course.getEnrollCount());
-        responseDto.setCreatedAt(LocalDateTime.now());
+        responseDto.setDate(course.getDate());
 
         return responseDto;
     }

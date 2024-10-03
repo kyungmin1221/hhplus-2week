@@ -31,17 +31,18 @@ public class Course {
     @Column
     private Long enrollCount = 0L;
 
-    private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private String date;
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @Builder
-    public Course(Long id, String name, Long capacity, LocalDateTime createdAt) {
+    public Course(Long id, String name, Long capacity, String date) {
         this.id = id;
         this.name = name;
         this.capacity = capacity;
-        this.createdAt = createdAt;
+        this.date = date;
     }
 
     public void increaseEnrollment() {
