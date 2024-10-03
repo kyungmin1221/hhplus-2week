@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,6 +16,7 @@ public interface CourseRepository extends JpaRepository<Course, Long>  {
 
     Course findByName(String courseName);
 
+    List<Course> findByDate(String date);
     // 비관적 락 적용
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT c FROM Course c WHERE c.id = :courseId")

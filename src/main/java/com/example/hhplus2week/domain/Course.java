@@ -1,10 +1,12 @@
 package com.example.hhplus2week.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +31,18 @@ public class Course {
     @Column
     private Long enrollCount = 0L;
 
+    @Column(nullable = false)
+    private String date;
+
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @Builder
-    public Course(Long id, String name, Long capacity) {
+    public Course(Long id, String name, Long capacity, String date) {
         this.id = id;
         this.name = name;
         this.capacity = capacity;
+        this.date = date;
     }
 
     public void increaseEnrollment() {
