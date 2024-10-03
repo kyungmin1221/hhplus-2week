@@ -49,6 +49,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
         enrollmentRepository.save(enrollment);
 
         course.increaseEnrollment();
+        courseRepository.save(course);
 
         return new EnrollmentDto.EnrollmentResponseDto(
                 userId, courseId, course.getCapacity(),course.getEnrollCount());
