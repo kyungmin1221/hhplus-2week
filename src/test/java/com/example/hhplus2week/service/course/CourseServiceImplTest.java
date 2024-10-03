@@ -36,7 +36,6 @@ class CourseServiceImplTest {
         CourseDto.CourseRequestDto requestDto = new CourseDto.CourseRequestDto();
         requestDto.setCourseId(1L);
         requestDto.setName("spring");
-        requestDto.setCapacity(30L);
 
         Course rgCourse = Course.builder()
                 .id(courseId)

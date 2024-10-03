@@ -22,10 +22,6 @@ public class EnrollmentController {
             @RequestBody EnrollmentDto.EnrollmentRequestDto requestDto) {
 
         EnrollmentDto.EnrollmentResponseDto responseDto = enrollmentService.registerEnrollment(requestDto);
-        if ("수강 신청 완료".equals(responseDto.getMessage())) {
-            return ResponseEntity.ok(responseDto);
-        } else {
-            return ResponseEntity.badRequest().body(responseDto);
-        }
+        return ResponseEntity.ok(responseDto);
     }
 }

@@ -20,6 +20,8 @@ public class EnrollmentServiceImpl implements EnrollmentService{
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final EnrollmentRepository enrollmentRepository;
+
+
     /**
      * 특강을 신청
      */
@@ -31,22 +33,14 @@ public class EnrollmentServiceImpl implements EnrollmentService{
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
+        // 비관적 락을 걸어 강의 엔티티를 가져옴
         Course course = courseRepository.findByIdWithLock(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("강의를 찾을 수 없습니다."));
 
+        checkEnrollmentAvailability(course);
+        checkDuplicateEnrollment(user, course);
 
-        // 특강 신청 가능한 인원 확인
-        long enrollmentCount = enrollmentRepository.countByCourse(course);
-        if(enrollmentCount >= 30) {
-            throw new IllegalArgumentException("수업 가능 인원이 다 찼습니다.");
-        }
-
-        // 특강 중복 신청 확인
-        boolean alreadyRegisterCourse = enrollmentRepository.existsByUserAndCourse(user, course);
-        if(alreadyRegisterCourse) {
-            throw new IllegalArgumentException("유저가 이미 수업을 등록했습니다.");
-        }
-
+        // 수강 신청 처리
         Enrollment enrollment = Enrollment.builder()
                 .user(user)
                 .course(course)
@@ -54,13 +48,26 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
         enrollmentRepository.save(enrollment);
 
+        course.increaseEnrollment();
+
         return new EnrollmentDto.EnrollmentResponseDto(
-                userId, courseId, "수강 신청 완료");
+                userId, courseId, course.getCapacity(),course.getEnrollCount());
     }
 
-    /**
-     * 특강이 신청 가능한지 아닌지 확인
-     */
+    // 특강 신청 가능 여부 확인
+    private void checkEnrollmentAvailability(Course course) {
+        if (!course.checkEnrollment()) {
+            throw new IllegalArgumentException("수업 가능 인원이 다 찼습니다.");
+        }
+    }
+
+    // 중복 신청 확인
+    private void checkDuplicateEnrollment(User user, Course course) {
+        boolean alreadyEnrolled = enrollmentRepository.existsByUserAndCourse(user, course);
+        if (alreadyEnrolled) {
+            throw new IllegalArgumentException("유저가 이미 수업을 등록했습니다.");
+        }
+    }
 
 }
 

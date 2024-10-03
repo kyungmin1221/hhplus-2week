@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -21,11 +23,16 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     public UserDto.UserResponseDto registerUser(UserDto.UserRequestDto requestDto) {
-        User user = User.builder()
+        Optional<User> user = userRepository.findById(requestDto.getUserId());
+        if(user.isPresent()) {
+            throw new IllegalStateException("이미 유저 있음");
+        }
+
+        User newUser = User.builder()
                 .name(requestDto.getName())
                 .build();
 
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(newUser);
 
         return new UserDto.UserResponseDto(
                 savedUser.getId(),
@@ -42,8 +49,4 @@ public class UserServiceImpl implements UserService {
         return new UserDto.UserResponseDto(user.getId(), user.getName());
     }
 
-
-    /**
-     * 유저 중복 검증
-     */
 }

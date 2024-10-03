@@ -22,12 +22,15 @@ public class CourseServiceImpl implements CourseService{
      */
     @Transactional
     public CourseDto.CourseResponseDto registerCourse(CourseDto.CourseRequestDto requestDto) {
-        Course course = courseRepository.findByCourseName(requestDto.getName());
+        Course course = courseRepository.findByName(requestDto.getName());
+        if(course != null) {
+            throw new IllegalStateException("이미 강의 존재");
+        }
 
         Course newCourse = Course.builder()
                 .id(requestDto.getCourseId())
                 .name(requestDto.getName())
-                .capacity(requestDto.getCapacity())
+                .capacity(30L)
                 .build();
 
         courseRepository.save(newCourse);
@@ -35,16 +38,9 @@ public class CourseServiceImpl implements CourseService{
         return new CourseDto.CourseResponseDto(
                 newCourse.getId(),
                 newCourse.getName(),
-                newCourse.getCapacity()
+                newCourse.getCapacity(),
+                newCourse.getEnrollCount()
         );
     }
-    /**
-     * 특강 수업 목록 조회
-     */
 
-
-
-    /**
-     * 정원(30명) 검증
-     */
 }

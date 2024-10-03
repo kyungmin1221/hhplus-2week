@@ -21,6 +21,7 @@ public class UserDto {
     @Getter
     @Setter
     public static class UserRequestDto {
+        Long userId;
         String name;
     }
 }

@@ -11,16 +11,15 @@ public class EnrollmentDto {
 
         Long userId;
         Long courseId;
-        String message;
+        Long capacity;
+        Long enrollmentCount;
 
 
-        public EnrollmentResponseDto(Long userId, Long courseId, String message) {
+        public EnrollmentResponseDto(Long userId, Long courseId, Long capacity, Long enrollmentCount) {
             this.userId = userId;
             this.courseId = courseId;
-        }
-
-        public EnrollmentResponseDto(String message) {
-            this.message = message;
+            this.capacity = capacity;
+            this.enrollmentCount = enrollmentCount;
         }
 
     }

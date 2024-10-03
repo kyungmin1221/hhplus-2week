@@ -13,8 +13,9 @@ import java.util.Optional;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long>  {
 
-    Course findByCourseName(String courseName);
+    Course findByName(String courseName);
 
+    // 비관적 락 적용
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT c FROM Course c WHERE c.id = :courseId")
     Optional<Course> findByIdWithLock(@Param("courseId") Long courseId);

@@ -13,11 +13,13 @@ public class CourseDto {
         Long courseId;
         String name;
         Long capacity;
+        Long enrollCount;
 
-        public CourseResponseDto(Long courseId, String name, Long capacity) {
+        public CourseResponseDto(Long courseId, String name, Long capacity, Long enrollCount) {
             this.courseId = courseId;
             this.name = name;
             this.capacity = capacity;
+            this.enrollCount = enrollCount;
         }
     }
 
@@ -26,6 +28,5 @@ public class CourseDto {
     public static class CourseRequestDto {
         Long courseId;
         String name;
-        Long capacity;
     }
 }
