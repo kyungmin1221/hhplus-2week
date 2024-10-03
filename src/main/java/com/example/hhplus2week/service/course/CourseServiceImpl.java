@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,16 +34,12 @@ public class CourseServiceImpl implements CourseService{
                 .id(requestDto.getCourseId())
                 .name(requestDto.getName())
                 .capacity(30L)
+                .createdAt(LocalDateTime.now())
                 .build();
 
         courseRepository.save(newCourse);
 
-        return new CourseDto.CourseResponseDto(
-                newCourse.getId(),
-                newCourse.getName(),
-                newCourse.getCapacity(),
-                newCourse.getEnrollCount()
-        );
+        return new CourseDto.CourseResponseDto(newCourse);
     }
 
     /**
@@ -62,6 +59,7 @@ public class CourseServiceImpl implements CourseService{
         responseDto.setName(course.getName());
         responseDto.setCapacity(course.getCapacity());
         responseDto.setEnrollCount(course.getEnrollCount());
+        responseDto.setCreatedAt(LocalDateTime.now());
 
         return responseDto;
     }
