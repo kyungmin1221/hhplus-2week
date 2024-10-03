@@ -21,6 +21,10 @@ public class CourseDto {
             this.capacity = capacity;
             this.enrollCount = enrollCount;
         }
+
+        public CourseResponseDto() {
+
+        }
     }
 
     @Getter
