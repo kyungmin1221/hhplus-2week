@@ -4,10 +4,9 @@ import com.example.hhplus2week.dto.course.CourseDto;
 import com.example.hhplus2week.service.course.CourseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/course")
@@ -22,6 +21,20 @@ public class CourseController {
         CourseDto.CourseResponseDto responseDto = courseService.registerCourse(requestDto);
 
         return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<CourseDto.CourseResponseDto>>getListCourse()  {
+        List<CourseDto.CourseResponseDto> responseDtos = courseService.getListCourse();
+        return ResponseEntity.ok(responseDtos);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CourseDto.CourseResponseDto>> getCoursesByDate(
+            @RequestParam(required = false) String date) {
+        List<CourseDto.CourseResponseDto> courses = courseService.getDateCourse(date);
+        return ResponseEntity.ok(courses);
     }
 
 
